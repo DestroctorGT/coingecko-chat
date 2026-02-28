@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useDebounce } from '@uidotdev/usehooks';
-import { useEffect, useRef, useState } from 'react';
+import { useDebounce } from "@uidotdev/usehooks";
+import { useEffect, useRef, useState } from "react";
 
 interface ChatInputProps {
   onSubmit: (value: string) => void;
@@ -9,7 +9,7 @@ interface ChatInputProps {
 }
 
 export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const debouncedValue = useDebounce(value, 100);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -17,7 +17,7 @@ export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
   useEffect(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
-    textarea.style.height = 'auto';
+    textarea.style.height = "auto";
     textarea.style.height = `${Math.min(textarea.scrollHeight, 160)}px`;
   }, [value]);
 
@@ -25,11 +25,11 @@ export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
     const trimmed = debouncedValue.trim();
     if (!trimmed || isLoading) return;
     onSubmit(trimmed);
-    setValue('');
+    setValue("");
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
@@ -50,7 +50,7 @@ export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
       <button
         onClick={handleSubmit}
         disabled={isLoading || !value.trim()}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        className="flex h-8 w-8 cursor-pointer shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         aria-label="Enviar"
       >
         {isLoading ? (
