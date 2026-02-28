@@ -25,20 +25,20 @@ git clone https://github.com/tu-usuario/coingecko-chat.git
 cd coingecko-chat
 ```
 
-2. **Instalar dependencias**
+1. **Instalar dependencias**
 
 ```bash
 npm install
 ```
 
-3. **Crear `.env.local`** en la raíz del proyecto:
+1. **Crear `.env.local`** en la raíz del proyecto:
 
 ```
 COINGECKO_API_KEY=tu_clave_coingecko
 VERCEL_AI_GATEWAY_KEY=tu_clave_vercel_gateway
 ```
 
-4. **Correr en desarrollo**
+1. **Correr en desarrollo**
 
 ```bash
 npm run dev
@@ -52,8 +52,8 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ### Endpoints
 
-| Endpoint | Descripción |
-|---|---|
+| Endpoint         | Descripción                                                           |
+| ---------------- | --------------------------------------------------------------------- |
 | `POST /api/chat` | Recibe mensajes, ejecuta tool-calling, hace streaming de la respuesta |
 
 ### Caching
@@ -87,14 +87,14 @@ Usuario escribe → useChat → POST /api/chat
 
 ## Stack tecnológico
 
-| Capa | Tecnología |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| IA | Vercel AI SDK v4 (`ai`, `@ai-sdk/openai`) |
-| Modelo | `anthropic/claude-3-5-sonnet-20241022` vía Vercel AI Gateway |
-| Datos | CoinGecko API v3 |
-| UI | React 19, Tailwind CSS v4, Radix UI |
-| Validación | Zod |
+| Capa       | Tecnología                                |
+| ---------- | ----------------------------------------- |
+| Framework  | Next.js 16 (App Router)                   |
+| IA         | Vercel AI SDK v4 (`ai`)                   |
+| Modelo     | `openai/gpt-5-mini` vía Vercel AI Gateway |
+| Datos      | CoinGecko API v3                          |
+| UI         | React 19, Tailwind CSS v4, Radix UI       |
+| Validación | Zod                                       |
 
 ---
 
@@ -104,10 +104,16 @@ Esta app fue construida con la ayuda de **Claude Code**, el CLI de IA de Anthrop
 
 ### Ejemplos de prompts usados
 
-- _"Implementa `getCryptoByQuery` con una estrategia multi-paso: ID directo → /search → markets"_
+- "analiza el archivo @docs/requirements.md para implementar esta aplicacion" - se uso en modo plan para decidir el stack
+  tecnológico
+- \_"Implementa `getCryptoByQuery` con una estrategia multi-paso: ID directo → /search → markets" - se uso para evitar casos
+  donde el usuario intente buscar por eth, btc y no por nombres exactos desde el param Id que causaria errores.
 - _"Crea `MessageBubble` que renderice `Top10Grid` o `CryptoDetail` según el toolName del tool invocation"_
 - _"Configura la ruta API para usar Vercel AI Gateway con tool-calling y maxSteps: 5"_
 - _"El componente `ChatInput` debe usar `useDebounce` de @uidotdev/usehooks y hacer submit con Enter (Shift+Enter = nueva línea)"_
+- "ahora quiero solucionar un bug visual y es que cuando le escribo al chat aparece el skeleton MessageSkeleton pero dura muy poco, osea aparece y  
+   dependiendo de la respuesta de la tool se quita y luego aparece la informacion. pero si ya respondio con @components/crypto/Top10Grid.tsx o  
+  @components/crypto/CryptoDetail.tsx no vuelve aparecer el skeleton del mensaje cargando. lo que describo es: Evitar waterfalls obvios"
 
 ---
 

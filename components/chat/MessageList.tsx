@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import * as ScrollArea from '@radix-ui/react-scroll-area';
-import type { UIMessage } from 'ai';
-import { MessageBubble } from './MessageBubble';
-import { MessageSkeleton } from '@/components/ui/Skeleton';
+import { useEffect, useRef } from "react";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import type { UIMessage } from "ai";
+import { MessageBubble } from "./MessageBubble";
+import { MessageSkeleton } from "@/components/ui/Skeleton";
 
 interface MessageListProps {
   messages: UIMessage[];
@@ -15,7 +15,7 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
   return (
@@ -29,7 +29,8 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                 CryptoChat
               </h2>
               <p className="max-w-xs text-sm text-zinc-400 dark:text-zinc-500">
-                Pregunta sobre el precio de cualquier cripto, el top 10 por capitalización, o simplemente conversa.
+                Pregunta sobre el precio de cualquier cripto, el top 10 por
+                capitalización, o simplemente conversa.
               </p>
             </div>
           )}
@@ -38,11 +39,21 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
             <MessageBubble key={message.id} message={message} />
           ))}
 
-          {isLoading && messages[messages.length - 1]?.role === 'user' && (
-            <div className="flex justify-start">
-              <MessageSkeleton />
-            </div>
-          )}
+          {(() => {
+            const lastMessage = messages[messages.length - 1];
+            const showMessageSkeleton =
+              isLoading &&
+              (lastMessage?.role === "user" ||
+                (lastMessage?.role === "assistant" &&
+                  !lastMessage.parts?.some(
+                    (p) =>
+                      (p.type === "text" &&
+                        (p as { type: "text"; text: string }).text?.trim()) ||
+                      p.type === "tool-getTop10Cryptos" ||
+                      p.type === "tool-getCryptoByQuery",
+                  )));
+            return showMessageSkeleton ? <MessageSkeleton /> : null;
+          })()}
 
           <div ref={bottomRef} />
         </div>
