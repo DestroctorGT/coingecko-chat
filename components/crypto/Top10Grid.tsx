@@ -15,7 +15,7 @@ export function Top10Grid({ cryptos }: Top10GridProps) {
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {cryptos.map((crypto) => (
           <CryptoCard key={crypto.id} crypto={crypto} />
         ))}

@@ -17,7 +17,7 @@ export function ChatContainer() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-zinc-50 dark:bg-zinc-900">
+    <div className="flex h-[100dvh] flex-col bg-zinc-50 dark:bg-zinc-900">
       {/* Header */}
       <header className="flex items-center gap-2 border-b border-zinc-200 bg-white px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
         <span className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
@@ -29,7 +29,7 @@ export function ChatContainer() {
       <MessageList messages={messages} isLoading={isLoading} />
 
       {/* Input */}
-      <div className="border-t border-zinc-200 bg-white px-4 py-3 dark:border-zinc-700 dark:bg-zinc-800">
+      <div className="border-t border-zinc-200 bg-white px-4 py-3 pb-safe dark:border-zinc-700 dark:bg-zinc-800">
         <ChatInput onSubmit={handleSubmit} isLoading={isLoading} />
       </div>
     </div>

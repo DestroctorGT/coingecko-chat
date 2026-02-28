@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, Archivo_Narrow, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -19,6 +19,8 @@ const outfit = Outfit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-outfit",
 });
+
+export const viewport: Viewport = { viewportFit: "cover" };
 
 export const metadata: Metadata = {
   title: "CryptoChat",
