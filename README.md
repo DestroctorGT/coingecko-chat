@@ -35,7 +35,7 @@ npm install
 
 ```
 COINGECKO_API_KEY=tu_clave_coingecko
-VERCEL_AI_GATEWAY_KEY=tu_clave_vercel_gateway
+AI_GATEWAY_KEY=tu_clave_vercel_gateway
 ```
 
 1. **Correr en desarrollo**
@@ -60,12 +60,12 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 **CoinGecko API v3** (consumidos desde `lib/coingecko.ts`)
 
-| Endpoint                                                              | Función              | Descripción                                                       |
-| --------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------- |
+| Endpoint                                                               | Función              | Descripción                                                       |
+| ---------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------- |
 | `GET /coins/markets?vs_currency=usd&per_page=10&order=market_cap_desc` | `getTop10()`         | Top 10 criptos por capitalización de mercado                      |
-| `GET /coins/markets?vs_currency=usd&ids={id}`                         | `getCryptoByQuery()` | Paso 1: intenta obtener la cripto directamente por ID             |
-| `GET /search?query={query}`                                           | `getCryptoByQuery()` | Paso 2: si no hay resultado directo, busca el ID real del símbolo |
-| `GET /coins/markets?vs_currency=usd&ids={foundId}`                    | `getCryptoByQuery()` | Paso 3: obtiene datos completos con el ID encontrado              |
+| `GET /coins/markets?vs_currency=usd&ids={id}`                          | `getCryptoByQuery()` | Paso 1: intenta obtener la cripto directamente por ID             |
+| `GET /search?query={query}`                                            | `getCryptoByQuery()` | Paso 2: si no hay resultado directo, busca el ID real del símbolo |
+| `GET /coins/markets?vs_currency=usd&ids={foundId}`                     | `getCryptoByQuery()` | Paso 3: obtiene datos completos con el ID encontrado              |
 
 ### Caching
 
@@ -87,11 +87,11 @@ El flujo de tool-calling tiene dos fases con latencia: esperar que la IA respond
 
 La solución usa dos capas de skeleton coordinadas por el estado del mensaje:
 
-| Fase | Condición | Qué se muestra |
-| ---- | --------- | -------------- |
-| Esperando respuesta del asistente | `isLoading` y el último mensaje es del usuario, o el asistente aún no tiene partes visibles | `MessageSkeleton` (burbuja genérica de "pensando") |
-| Tool invocada, esperando resultado | La part del tool existe con estado `input-streaming` o `input-available` | `CardSkeleton` (grid) o `DetailSkeleton`, reemplazando al `MessageSkeleton` |
-| Tool con resultado | Estado `output-available` | Componente real (`Top10Grid` o `CryptoDetail`) |
+| Fase                               | Condición                                                                                   | Qué se muestra                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Esperando respuesta del asistente  | `isLoading` y el último mensaje es del usuario, o el asistente aún no tiene partes visibles | `MessageSkeleton` (burbuja genérica de "pensando")                          |
+| Tool invocada, esperando resultado | La part del tool existe con estado `input-streaming` o `input-available`                    | `CardSkeleton` (grid) o `DetailSkeleton`, reemplazando al `MessageSkeleton` |
+| Tool con resultado                 | Estado `output-available`                                                                   | Componente real (`Top10Grid` o `CryptoDetail`)                              |
 
 El `MessageSkeleton` desaparece exactamente cuando aparece la primera tool part, de modo que siempre hay algo visible en pantalla sin gaps ni saltos.
 
